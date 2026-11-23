@@ -8,6 +8,13 @@
       "when": 1795421531195,
       "tag": "0000_create_booking_and_contact_enquiries",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1795429262849,
+      "tag": "0001_tighten_contact_message_insert_rule",
+      "breakpoints": true
     }
   ]
 }
