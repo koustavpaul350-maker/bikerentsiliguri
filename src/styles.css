@@ -57,6 +57,8 @@
   --color-bronze: var(--bronze);
   --color-bronze-glow: var(--bronze-glow);
   --color-overlay: var(--overlay);
+  --color-whatsapp: var(--whatsapp);
+  --color-whatsapp-foreground: var(--whatsapp-foreground);
 
   --color-chart-1: var(--chart-1);
   --color-chart-2: var(--chart-2);
@@ -87,6 +89,9 @@
   --bronze: oklch(0.67 0.125 55);
   --bronze-glow: oklch(0.76 0.11 65);
   --overlay: oklch(0.1 0.004 70);
+  /* WhatsApp brand green (#25D366) for the click-to-chat buttons */
+  --whatsapp: oklch(0.77 0.19 150);
+  --whatsapp-foreground: oklch(0.15 0.02 150);
 
   --background: var(--midnight);
   --foreground: oklch(0.94 0.014 85);
