@@ -28,3 +28,11 @@ use the editor.
   own key and store it in Secrets.
 - **Secrets.** Lovable manages them. Do not put secret values in the repo.
 <!-- LOVABLE:END -->
+
+## Project rules
+- Fleet data (names, prices, photos, credits) lives only in `src/data/fleet.ts`; pages read from it so prices never drift between pages.
+- Business contact details and map URLs live in `src/data/business.ts`; never hard-code them in pages.
+- Site photos/video are Lovable Assets pointers under `src/assets/**`, exposed through `src/data/media.ts`; reference them via `PHOTOS`/`HERO_MEDIA`, never raw URLs.
+- Booking and contact forms insert straight into `booking_enquiries` / `contact_messages` with the browser client; those tables are insert-only for visitors (no read policies) so submissions stay private.
+- Form validation rules live in `src/lib/booking-schema.ts` and are covered by `booking-schema.test.ts`; the DB repeats the date rules as a safety net.
+- `/booking` accepts an optional `?bike=<slug>` search param to preselect a bike; link with `search={{ bike: slug }}`.
