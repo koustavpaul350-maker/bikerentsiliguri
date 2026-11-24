@@ -1,13 +1,13 @@
-import himalayan from "@/assets/bikes/himalayan-411.jpg.asset.json";
-import classic from "@/assets/bikes/classic-350.jpg.asset.json";
-import meteor from "@/assets/bikes/meteor-350.jpg.asset.json";
-import hunter from "@/assets/bikes/hunter-350.jpg.asset.json";
-import xpulse from "@/assets/bikes/xpulse-200.jpg.asset.json";
-import ntorq125 from "@/assets/bikes/ntorq-125.jpg.asset.json";
-import jupiter from "@/assets/bikes/jupiter-125.jpg.asset.json";
-import pulsar from "@/assets/bikes/pulsar-n160.jpg.asset.json";
-import ntorq150 from "@/assets/bikes/ntorq-150.jpg.asset.json";
-import activa from "@/assets/bikes/activa-6g.jpg.asset.json";
+const himalayan = { url: "/media/bikes/himalayan-411.jpg" };
+const classic = { url: "/media/bikes/classic-350.jpg" };
+const meteor = { url: "/media/bikes/meteor-350.jpg" };
+const hunter = { url: "/media/bikes/hunter-350.jpg" };
+const xpulse = { url: "/media/bikes/xpulse-200.jpg" };
+const ntorq125 = { url: "/media/bikes/ntorq-125.jpg" };
+const jupiter = { url: "/media/bikes/jupiter-125.jpg" };
+const pulsar = { url: "/media/bikes/pulsar-n160.jpg" };
+const ntorq150 = { url: "/media/bikes/ntorq-150.jpg" };
+const activa = { url: "/media/bikes/activa-6g.jpg" };
 
 export type BikeType = "adventure" | "classic" | "street" | "scooter";
 
