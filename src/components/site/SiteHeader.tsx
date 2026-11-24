@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
 import { Link, useRouterState } from "@tanstack/react-router";
-import { Menu, X } from "lucide-react";
+import { Menu, Phone, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { Logo } from "./Logo";
 import { NAV_LINKS } from "./nav";
-import { BUSINESS } from "@/data/business";
+import { BUSINESS, PHONE_HREF, WHATSAPP_URL } from "@/data/business";
+import { WhatsAppIcon } from "./WhatsAppIcon";
 
 export function SiteHeader() {
   const [scrolled, setScrolled] = useState(false);
@@ -60,6 +61,14 @@ export function SiteHeader() {
           </nav>
 
           <div className="flex items-center gap-3">
+            <a
+              href={PHONE_HREF}
+              aria-label={`Call ${BUSINESS.name} on ${BUSINESS.phoneDisplay}`}
+              className="eyebrow inline-flex h-11 items-center justify-center gap-2.5 border border-foreground/25 px-3 text-[0.66rem] tracking-[0.22em] text-foreground transition-all duration-500 ease-luxe hover:border-primary hover:text-primary xl:h-10 xl:px-5"
+            >
+              <Phone className="h-4 w-4 text-primary" aria-hidden="true" />
+              <span className="hidden xl:inline">Call now</span>
+            </a>
             <Button asChild variant="bronze" size="lg" className="hidden sm:inline-flex">
               <Link to="/booking">Book your ride</Link>
             </Button>
@@ -110,7 +119,19 @@ export function SiteHeader() {
           </Button>
         </nav>
         <div className="shell pb-10 pt-6 text-sm text-muted-foreground">
-          <a href={`mailto:${BUSINESS.email}`} tabIndex={open ? 0 : -1} className="link-underline">
+          <div className="grid grid-cols-2 gap-3">
+            <Button asChild variant="outline-light" size="xl" className="px-4">
+              <a href={PHONE_HREF} tabIndex={open ? 0 : -1}>
+                <Phone className="text-primary" /> Call now
+              </a>
+            </Button>
+            <Button asChild variant="whatsapp" size="xl" className="px-4">
+              <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer" tabIndex={open ? 0 : -1}>
+                <WhatsAppIcon /> WhatsApp
+              </a>
+            </Button>
+          </div>
+          <a href={`mailto:${BUSINESS.email}`} tabIndex={open ? 0 : -1} className="link-underline mt-6 inline-block">
             {BUSINESS.email}
           </a>
         </div>

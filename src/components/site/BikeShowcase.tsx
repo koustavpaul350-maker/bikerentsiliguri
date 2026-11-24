@@ -3,6 +3,8 @@ import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { formatPrice, type Bike } from "@/data/fleet";
 import { cn } from "@/lib/utils";
+import { bikeWhatsAppUrl } from "@/lib/whatsapp";
+import { WhatsAppIcon } from "./WhatsAppIcon";
 import { Reveal } from "./Reveal";
 
 type BikeShowcaseProps = {
@@ -73,6 +75,16 @@ export function BikeShowcase({ bike, index, reverse = false, onDetails }: BikeSh
             <Link to="/booking" search={{ bike: bike.slug }}>
               Book this bike
             </Link>
+          </Button>
+          <Button asChild variant="whatsapp" size="xl">
+            <a
+              href={bikeWhatsAppUrl(bike)}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={`Book the ${bike.name} on WhatsApp`}
+            >
+              <WhatsAppIcon /> Book on WhatsApp
+            </a>
           </Button>
           <Button type="button" variant="outline-light" size="xl" onClick={() => onDetails(bike)}>
             View details <ArrowRight />

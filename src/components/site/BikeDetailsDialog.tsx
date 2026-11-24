@@ -2,6 +2,8 @@ import { Link } from "@tanstack/react-router";
 import { Dialog, DialogContent, DialogDescription, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { formatPrice, type Bike } from "@/data/fleet";
+import { bikeWhatsAppUrl } from "@/lib/whatsapp";
+import { WhatsAppIcon } from "./WhatsAppIcon";
 
 type Props = { bike: Bike | null; onOpenChange: (open: boolean) => void };
 
@@ -55,11 +57,21 @@ export function BikeDetailsDialog({ bike, onOpenChange }: Props) {
                 ))}
               </ul>
 
-              <div className="mt-auto pt-10">
+              <div className="mt-auto space-y-3 pt-10">
                 <Button asChild variant="bronze" size="xl" className="w-full">
                   <Link to="/booking" search={{ bike: bike.slug }} onClick={() => onOpenChange(false)}>
                     Book this bike — {formatPrice(bike.pricePerDay)}/day
                   </Link>
+                </Button>
+                <Button asChild variant="whatsapp" size="xl" className="w-full">
+                  <a
+                    href={bikeWhatsAppUrl(bike)}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={`Book the ${bike.name} on WhatsApp`}
+                  >
+                    <WhatsAppIcon /> Book on WhatsApp
+                  </a>
                 </Button>
               </div>
             </div>

@@ -13,6 +13,7 @@ import { useRouterState } from "@tanstack/react-router";
 import { Toaster } from "@/components/ui/sonner";
 import { SiteHeader } from "@/components/site/SiteHeader";
 import { SiteFooter } from "@/components/site/SiteFooter";
+import { FloatingWhatsApp } from "@/components/site/FloatingWhatsApp";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
@@ -155,6 +156,7 @@ function RootComponent() {
         <Outlet />
       </PageTransition>
       <SiteFooter />
+      <FloatingWhatsApp />
       <Toaster theme="dark" position="bottom-center" />
     </QueryClientProvider>
   );

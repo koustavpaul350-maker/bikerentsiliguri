@@ -1,6 +1,7 @@
 import { Link } from "@tanstack/react-router";
-import { ArrowUpRight } from "lucide-react";
-import { BUSINESS, DIRECTIONS_URL } from "@/data/business";
+import { ArrowUpRight, Phone } from "lucide-react";
+import { BUSINESS, DIRECTIONS_URL, PHONE_HREF, WHATSAPP_URL } from "@/data/business";
+import { WhatsAppIcon } from "./WhatsAppIcon";
 import { NAV_LINKS } from "./nav";
 import { Logo } from "./Logo";
 
@@ -51,6 +52,25 @@ export function SiteFooter() {
           >
             {BUSINESS.email}
           </a>
+          <ul className="mt-5 space-y-3 text-sm">
+            <li>
+              <a href={PHONE_HREF} className="inline-flex items-center gap-3 text-foreground/85 hover:text-foreground">
+                <Phone className="h-4 w-4 text-primary" aria-hidden="true" />
+                <span className="link-underline">{BUSINESS.phoneDisplay}</span>
+              </a>
+            </li>
+            <li>
+              <a
+                href={WHATSAPP_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-3 text-foreground/85 hover:text-foreground"
+              >
+                <WhatsAppIcon className="h-4 w-4 text-whatsapp" />
+                <span className="link-underline">WhatsApp us</span>
+              </a>
+            </li>
+          </ul>
           <a
             href={DIRECTIONS_URL}
             target="_blank"

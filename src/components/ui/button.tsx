@@ -22,6 +22,8 @@ const buttonVariants = cva(
           "rounded-none border border-foreground/40 bg-transparent text-foreground uppercase tracking-[0.22em] text-[0.7rem] font-semibold backdrop-blur-sm transition-all duration-500 hover:border-foreground hover:bg-foreground hover:text-background active:scale-[0.98]",
         "outline-dark":
           "rounded-none border border-ivory-foreground/40 bg-transparent text-ivory-foreground uppercase tracking-[0.22em] text-[0.7rem] font-semibold transition-all duration-500 hover:bg-ivory-foreground hover:text-ivory active:scale-[0.98]",
+        whatsapp:
+          "rounded-none border border-whatsapp/60 bg-transparent text-foreground uppercase tracking-[0.22em] text-[0.7rem] font-semibold transition-all duration-500 [&_svg]:text-whatsapp hover:border-whatsapp hover:bg-whatsapp hover:text-whatsapp-foreground hover:[&_svg]:text-whatsapp-foreground active:scale-[0.98]",
         line: "rounded-none px-0 h-auto py-1 text-foreground uppercase tracking-[0.22em] text-[0.7rem] font-semibold border-b border-primary hover:text-primary transition-colors duration-300",
       },
       size: {

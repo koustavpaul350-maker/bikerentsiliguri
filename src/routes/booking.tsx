@@ -2,8 +2,7 @@ import { useMemo, useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Check, Loader2 } from "lucide-react";
-import { toast } from "sonner";
+import { Loader2, Phone } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Field, SelectInput, TextArea, TextInput } from "@/components/site/FormField";
@@ -11,11 +10,13 @@ import { Picture } from "@/components/site/Picture";
 import { Reveal } from "@/components/site/Reveal";
 import { FLEET, formatPrice, getBike } from "@/data/fleet";
 import { PHOTOS } from "@/data/media";
-import { BUSINESS } from "@/data/business";
+import { BUSINESS, PHONE_HREF } from "@/data/business";
+import { WhatsAppIcon } from "@/components/site/WhatsAppIcon";
+import { bookingWhatsAppUrl, formatEnquiryDate, openWhatsApp } from "@/lib/whatsapp";
 import { makeBookingSchema, rentalDays, todayInIndia, type BookingValues } from "@/lib/booking-schema";
 
 const DESCRIPTION =
-  "Send a booking enquiry for motorcycle or scooter rental in Siliguri. Choose your bike, pickup and return dates — we confirm availability by email.";
+  "Send a booking enquiry for motorcycle or scooter rental in Siliguri. Choose your bike and dates, then send the enquiry to us on WhatsApp — we confirm availability.";
 
 export const Route = createFileRoute("/booking")({
   validateSearch: (search: Record<string, unknown>): { bike?: string } =>
@@ -67,6 +68,7 @@ function BookingPage() {
 
   const onSubmit = async (values: BookingValues) => {
     const chosen = getBike(values.motorcycle);
+    // Keep a private copy of the enquiry; WhatsApp is the main channel, so a failed save never blocks it.
     const { error } = await supabase.from("booking_enquiries").insert({
       full_name: values.fullName,
       email: values.email,
@@ -76,16 +78,11 @@ function BookingPage() {
       return_date: values.returnDate,
       message: values.message?.length ? values.message : null,
     });
-    if (error) {
-      console.error(error);
-      toast.error("We couldn't send your enquiry", {
-        description: `Please try again, or email us at ${BUSINESS.email}.`,
-      });
-      return;
-    }
+    if (error) console.error(error);
     setSubmitted(values);
     reset({ ...values, message: "" });
     window.scrollTo({ top: 0, behavior: "smooth" });
+    openWhatsApp(bookingWhatsAppUrl(values));
   };
 
   return (
@@ -126,7 +123,7 @@ function BookingPage() {
         </aside>
 
         {/* Form column */}
-        <div className="md:col-span-7">
+        <div className="min-w-0 md:col-span-7">
           <div className="shell max-w-3xl py-12 md:px-14 md:py-40 lg:px-20">
             <p className="eyebrow flex items-center gap-4 text-primary">
               <span className="rule-bronze" aria-hidden="true" /> Booking
@@ -135,8 +132,8 @@ function BookingPage() {
               Book your <em className="italic text-primary">ride.</em>
             </h1>
             <p className="lede mt-6 text-muted-foreground">
-              Send us your details and dates. This is an enquiry — we'll reply by email to confirm availability before
-              anything is booked.
+              Fill in your details and dates — WhatsApp then opens with your enquiry ready to send to us. This is an
+              enquiry; we'll reply to confirm availability before anything is booked.
             </p>
 
             {bike && !submitted ? (
@@ -159,21 +156,26 @@ function BookingPage() {
             {submitted ? (
               <Reveal className="mt-12 border border-primary/50 bg-card p-8 md:p-10" >
                 <div className="flex items-start gap-5">
-                  <span className="flex h-11 w-11 shrink-0 items-center justify-center bg-primary text-primary-foreground">
-                    <Check className="h-5 w-5" />
+                  <span className="flex h-11 w-11 shrink-0 items-center justify-center bg-whatsapp text-whatsapp-foreground">
+                    <WhatsAppIcon className="h-5 w-5" />
                   </span>
-                  <div>
-                    <h2 className="font-display text-3xl">Enquiry received.</h2>
+                  <div className="min-w-0">
+                    <h2 className="font-display text-3xl">Press Send in WhatsApp.</h2>
                     <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-                      Thank you, {submitted.fullName.split(" ")[0]}. Your enquiry for the{" "}
+                      Thank you, {submitted.fullName.split(" ")[0]}. WhatsApp has opened with your enquiry for the{" "}
                       <span className="text-foreground">{getBike(submitted.motorcycle)?.name}</span> from{" "}
-                      <span className="text-foreground">{submitted.pickupDate}</span> to{" "}
-                      <span className="text-foreground">{submitted.returnDate}</span> has been sent. We'll reply to{" "}
-                      <span className="text-foreground">{submitted.email}</span> to confirm availability. Your booking is not
-                      confirmed until you hear from us.
+                      <span className="text-foreground">{formatEnquiryDate(submitted.pickupDate)}</span> to{" "}
+                      <span className="text-foreground">{formatEnquiryDate(submitted.returnDate)}</span>, addressed to{" "}
+                      <span className="text-foreground">{BUSINESS.phoneDisplay}</span>. Press Send there so it reaches us.
+                      Your booking is not confirmed until we reply.
                     </p>
                     <div className="mt-6 flex flex-wrap gap-4">
-                      <Button type="button" variant="outline-light" size="lg" onClick={() => setSubmitted(null)}>
+                      <Button asChild variant="whatsapp" size="lg" className="w-full sm:w-auto">
+                        <a href={bookingWhatsAppUrl(submitted)} target="_blank" rel="noopener noreferrer">
+                          <WhatsAppIcon /> Open WhatsApp again
+                        </a>
+                      </Button>
+                      <Button type="button" variant="outline-light" size="lg" className="w-full sm:w-auto" onClick={() => setSubmitted(null)}>
                         Send another enquiry
                       </Button>
                       <Button asChild variant="line">
@@ -294,14 +296,21 @@ function BookingPage() {
                   <Button type="submit" variant="bronze" size="xl" className="w-full sm:w-auto" disabled={isSubmitting}>
                     {isSubmitting ? (
                       <>
-                        <Loader2 className="animate-spin" /> Sending…
+                        <Loader2 className="animate-spin" /> Opening WhatsApp…
                       </>
                     ) : (
-                      "Send booking enquiry"
+                      <>
+                        <WhatsAppIcon /> Send enquiry on WhatsApp
+                      </>
                     )}
                   </Button>
                   <p className="mt-4 text-xs leading-relaxed text-muted-foreground">
-                    Prefer email? Write to{" "}
+                    Prefer to talk?{" "}
+                    <a href={PHONE_HREF} className="link-underline inline-flex items-center gap-1.5 text-foreground">
+                      <Phone className="h-3 w-3 text-primary" aria-hidden="true" />
+                      Call {BUSINESS.phoneDisplay}
+                    </a>{" "}
+                    or write to{" "}
                     <a href={`mailto:${BUSINESS.email}`} className="link-underline text-foreground">
                       {BUSINESS.email}
                     </a>

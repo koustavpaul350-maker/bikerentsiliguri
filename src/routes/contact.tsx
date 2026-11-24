@@ -2,7 +2,7 @@ import { useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ArrowUpRight, Check, Loader2, Mail, MapPin } from "lucide-react";
+import { ArrowUpRight, Check, Loader2, Mail, MapPin, Phone } from "lucide-react";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
@@ -10,7 +10,8 @@ import { PageHero } from "@/components/site/PageHero";
 import { Reveal } from "@/components/site/Reveal";
 import { Field, TextArea, TextInput } from "@/components/site/FormField";
 import { PHOTOS } from "@/data/media";
-import { BUSINESS, DIRECTIONS_URL, MAP_EMBED_URL, localBusinessJsonLd } from "@/data/business";
+import { BUSINESS, DIRECTIONS_URL, MAP_EMBED_URL, PHONE_HREF, WHATSAPP_URL, localBusinessJsonLd } from "@/data/business";
+import { WhatsAppIcon } from "@/components/site/WhatsAppIcon";
 import { contactSchema, type ContactValues } from "@/lib/booking-schema";
 
 const DESCRIPTION =
@@ -82,6 +83,27 @@ function ContactPage() {
             </Reveal>
 
             <Reveal delay={100} className="mt-12 space-y-10">
+              <div className="flex gap-5 border-t border-border pt-8">
+                <Phone className="mt-1 h-5 w-5 shrink-0 text-primary" aria-hidden="true" />
+                <div>
+                  <p className="eyebrow text-[0.6rem] text-muted-foreground">Phone & WhatsApp</p>
+                  <a href={PHONE_HREF} className="link-underline mt-2 inline-block font-display text-2xl md:text-3xl">
+                    {BUSINESS.phoneDisplay}
+                  </a>
+                  <div className="mt-6 flex flex-wrap gap-3">
+                    <Button asChild variant="outline-light" size="xl">
+                      <a href={PHONE_HREF}>
+                        <Phone className="text-primary" /> Call now
+                      </a>
+                    </Button>
+                    <Button asChild variant="whatsapp" size="xl">
+                      <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer">
+                        <WhatsAppIcon /> WhatsApp
+                      </a>
+                    </Button>
+                  </div>
+                </div>
+              </div>
               <div className="flex gap-5 border-t border-border pt-8">
                 <Mail className="mt-1 h-5 w-5 shrink-0 text-primary" aria-hidden="true" />
                 <div>
