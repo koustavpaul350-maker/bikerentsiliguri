@@ -43,7 +43,7 @@ describe("fleet prices", () => {
   it("lists all ten motorcycles at the exact daily prices", () => {
     const prices = Object.fromEntries(FLEET.map((b) => [b.name, b.pricePerDay]));
     expect(prices).toEqual({
-      "Himalayan BS4 411cc": 1400,
+      "Himalayan BS6 (411 CC)": 1600,
       "Classic Reborn 350cc": 1300,
       "Meteor 350cc": 1400,
       "Hunter 350cc": 1300,

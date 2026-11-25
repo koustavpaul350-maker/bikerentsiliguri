@@ -40,10 +40,10 @@ export type Bike = {
 export const FLEET: Bike[] = [
   {
     slug: "himalayan-bs4-411",
-    name: "Himalayan BS4 411cc",
+    name: "Himalayan BS6 (411 CC)",
     make: "Royal Enfield",
     engine: "411cc",
-    pricePerDay: 1400,
+    pricePerDay: 1600,
     type: "adventure",
     style: "Adventure tourer",
     tagline: "Built for the high roads.",

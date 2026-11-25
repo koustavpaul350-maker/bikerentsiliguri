@@ -39,7 +39,7 @@ describe("booking enquiry WhatsApp message", () => {
         "Customer Name: Asha Roy",
         "Phone Number: +91 98765 43210",
         "Email: asha@example.com",
-        "Selected Bike: Himalayan BS4 411cc (₹1,400/day)",
+        "Selected Bike: Himalayan BS6 (411 CC) (₹1,600/day)",
         "Pickup Date: 25 Nov 2026",
         "Return Date: 27 Nov 2026",
         "Additional Message: Two riders, heading to Darjeeling & back?",

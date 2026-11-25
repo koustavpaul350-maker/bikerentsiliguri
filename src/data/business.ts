@@ -43,5 +43,5 @@ export const localBusinessJsonLd = {
     addressCountry: "IN",
   },
   areaServed: "Siliguri, North Bengal",
-  priceRange: "₹700 – ₹1,400 per day",
+  priceRange: "₹700 – ₹1,600 per day",
 };
